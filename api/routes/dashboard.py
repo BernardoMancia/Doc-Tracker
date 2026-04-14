@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "api" / "templates"))
 
 @router.get("/", response_class=HTMLResponse)
 async def serve_dashboard(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 
 @router.get("/api/dashboard")
