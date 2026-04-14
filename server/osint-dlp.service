@@ -1,0 +1,20 @@
+[Unit]
+Description=OSINT & DLP System — Grupo Roullier
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=adm_luke
+Group=adm_luke
+WorkingDirectory=/home/adm_luke/prod/docker/Doc-Tracker
+ExecStart=/home/adm_luke/prod/docker/Doc-Tracker/venv/bin/python server/run_server.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=osint-dlp
+Environment=PATH=/home/adm_luke/prod/docker/Doc-Tracker/venv/bin:/usr/local/bin:/usr/bin
+
+[Install]
+WantedBy=multi-user.target

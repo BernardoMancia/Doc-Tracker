@@ -2,6 +2,7 @@ import logging
 import sys
 from pathlib import Path
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -11,9 +12,9 @@ from apscheduler.triggers.cron import CronTrigger
 from fastapi import FastAPI
 
 from config.settings import settings
-from core.database import init_db
 from api.app import create_app as _create_base_app
 from api.routes.scans import _run_scan
+from alerts.webhook import WebhookDispatcher
 
 logger = logging.getLogger(__name__)
 scheduler = AsyncIOScheduler()
@@ -22,6 +23,25 @@ scheduler = AsyncIOScheduler()
 async def scheduled_scan():
     logger.info("=== Scheduled Scan Triggered ===")
     await _run_scan()
+
+
+async def send_startup_alert():
+    dispatcher = WebhookDispatcher()
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    schedule = ", ".join(f"{h}:00" for h in settings.schedule_hours)
+    message = (
+        "🟢 *OSINT/DLP System — Online*\n"
+        "\n"
+        f"🖥️ *Server:* {settings.dashboard_url}\n"
+        f"🕐 *Início:* {now}\n"
+        f"📅 *Auto-scan:* {schedule} BRT\n"
+        f"🔧 *Port:* {settings.api_port}\n"
+        "\n"
+        "✅ Scheduler ativo. Monitoramento em andamento."
+    )
+    await dispatcher.send_telegram(message)
+    await dispatcher.close()
+    logger.info("Startup alert sent to Telegram")
 
 
 def _configure_scheduler():
@@ -47,6 +67,7 @@ def create_server_app() -> FastAPI:
             _configure_scheduler()
             scheduler.start()
             logger.info("Scheduler started")
+            await send_startup_alert()
             yield
             scheduler.shutdown(wait=False)
             logger.info("Scheduler stopped")
