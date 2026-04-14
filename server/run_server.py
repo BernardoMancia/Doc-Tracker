@@ -1,15 +1,18 @@
 import logging
 import sys
 from pathlib import Path
+from contextlib import asynccontextmanager
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import uvicorn
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from fastapi import FastAPI
 
 from config.settings import settings
-from api.app import create_app
+from core.database import init_db
+from api.app import create_app as _create_base_app
 from api.routes.scans import _run_scan
 
 logger = logging.getLogger(__name__)
@@ -21,7 +24,7 @@ async def scheduled_scan():
     await _run_scan()
 
 
-def setup_scheduler():
+def _configure_scheduler():
     hours = settings.schedule_hours
     for hour in hours:
         scheduler.add_job(
@@ -31,7 +34,25 @@ def setup_scheduler():
             replace_existing=True,
         )
         logger.info("Scheduled scan at %02d:00 BRT", hour)
-    scheduler.start()
+
+
+def create_server_app() -> FastAPI:
+    app = _create_base_app()
+
+    original_lifespan = app.router.lifespan_context
+
+    @asynccontextmanager
+    async def server_lifespan(app):
+        async with original_lifespan(app):
+            _configure_scheduler()
+            scheduler.start()
+            logger.info("Scheduler started")
+            yield
+            scheduler.shutdown(wait=False)
+            logger.info("Scheduler stopped")
+
+    app.router.lifespan_context = server_lifespan
+    return app
 
 
 def main():
@@ -42,8 +63,7 @@ def main():
     logger.info("OSINT/DLP Server Mode — Port %d", settings.api_port)
     logger.info("Schedule: %s", settings.scan_schedule_hours)
 
-    app = create_app()
-    setup_scheduler()
+    app = create_server_app()
 
     config = uvicorn.Config(
         app,
