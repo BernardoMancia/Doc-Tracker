@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT & DLP — Grupo Roullier</title>
+    <meta name="description" content="Sistema de monitoramento OSINT e prevenção de vazamento de dados">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar__brand">
+            <div class="topbar__icon">🛡️</div>
+            <div>
+                <h1 class="topbar__title">OSINT & DLP</h1>
+                <span class="topbar__subtitle">Grupo Roullier — Threat Monitor</span>
+            </div>
+        </div>
+        <div class="topbar__actions">
+            <div class="scan-status" id="scanStatus">
+                <span class="pulse-dot"></span>
+                <span id="scanStatusText">Idle</span>
+            </div>
+            <button class="btn btn--primary" id="btnTriggerScan">🔄 Iniciar Scan</button>
+        </div>
+    </header>
+
+    <div id="progressContainer" class="progress-container" style="display:none">
+        <div class="progress-info">
+            <span id="progressPhase">Iniciando...</span>
+            <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-bar__fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div class="progress-detail" id="progressDetail"></div>
+    </div>
+
+    <section class="metrics">
+        <div class="metric-card metric-card--total">
+            <div class="metric-card__icon">📋</div>
+            <div class="metric-card__data">
+                <span class="metric-card__value" id="totalFindings">0</span>
+                <span class="metric-card__label">TOTAL FINDINGS</span>
+            </div>
+        </div>
+        <div class="metric-card metric-card--critical">
+            <div class="metric-card__icon">⚠️</div>
+            <div class="metric-card__data">
+                <span class="metric-card__value" id="criticalCount">0</span>
+                <span class="metric-card__label">CRÍTICO</span>
+            </div>
+        </div>
+        <div class="metric-card metric-card--high">
+            <div class="metric-card__icon">🔸</div>
+            <div class="metric-card__data">
+                <span class="metric-card__value" id="highCount">0</span>
+                <span class="metric-card__label">ALTO</span>
+            </div>
+        </div>
+        <div class="metric-card metric-card--medium">
+            <div class="metric-card__icon">🔹</div>
+            <div class="metric-card__data">
+                <span class="metric-card__value" id="mediumCount">0</span>
+                <span class="metric-card__label">MÉDIO</span>
+            </div>
+        </div>
+        <div class="metric-card metric-card--low">
+            <div class="metric-card__icon">✅</div>
+            <div class="metric-card__data">
+                <span class="metric-card__value" id="lowCount">0</span>
+                <span class="metric-card__label">BAIXO</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="charts">
+        <div class="chart-card">
+            <h3 class="chart-card__title">Distribuição por Risco</h3>
+            <canvas id="riskChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3 class="chart-card__title">Fontes de Vazamento</h3>
+            <canvas id="platformChart"></canvas>
+        </div>
+    </section>
+
+    <section class="findings-section">
+        <div class="findings-header">
+            <h3 class="findings-header__title">Triagem de Documentos</h3>
+            <div class="findings-header__filters">
+                <select id="filterRisk" class="filter-select">
+                    <option value="">Todos os Riscos</option>
+                    <option value="critical">Crítico</option>
+                    <option value="high">Alto</option>
+                    <option value="medium">Médio</option>
+                    <option value="low">Baixo</option>
+                </select>
+                <select id="filterStatus" class="filter-select">
+                    <option value="">Todos os Status</option>
+                    <option value="pending">Pendente</option>
+                    <option value="investigating">Investigando</option>
+                    <option value="false_positive">Falso Positivo</option>
+                    <option value="resolved">Resolvido</option>
+                </select>
+                <select id="filterCategory" class="filter-select">
+                    <option value="">Todas Categorias</option>
+                    <option value="rh">RH</option>
+                    <option value="financeiro">Financeiro</option>
+                    <option value="ti">TI</option>
+                    <option value="ti_security">TI/Segurança</option>
+                    <option value="dados_pessoais">Dados Pessoais</option>
+                    <option value="corporativo">Corporativo</option>
+                </select>
+                <select id="filterCountry" class="filter-select">
+                    <option value="">Todos Países</option>
+                    <option value="BR">🇧🇷 Brasil</option>
+                    <option value="PT">🇵🇹 Portugal</option>
+                    <option value="FR">🇫🇷 França</option>
+                    <option value="US">🇺🇸 EUA</option>
+                    <option value="INT">🌐 Internacional</option>
+                </select>
+                <select id="filterLanguage" class="filter-select">
+                    <option value="">Todos Idiomas</option>
+                    <option value="pt">Português</option>
+                    <option value="en">Inglês</option>
+                    <option value="es">Espanhol</option>
+                    <option value="fr">Francês</option>
+                    <option value="unknown">Outro</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table class="findings-table">
+                <thead>
+                    <tr>
+                        <th>RISCO</th>
+                        <th>DATA</th>
+                        <th>PAÍS</th>
+                        <th>ENTIDADE</th>
+                        <th>FONTE</th>
+                        <th>TÍTULO</th>
+                        <th>TIPO</th>
+                        <th>AUTOR</th>
+                        <th>CPFS</th>
+                        <th>CNPJS</th>
+                        <th>CATEGORIA</th>
+                        <th>STATUS</th>
+                        <th>AÇÕES</th>
+                    </tr>
+                </thead>
+                <tbody id="findingsBody">
+                    <tr><td colspan="13" class="empty-state">Nenhum finding encontrado</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+    </section>
+
+    <aside class="detail-panel" id="detailPanel">
+        <div class="detail-panel__header">
+            <h3>Detalhes do Finding</h3>
+            <button class="btn btn--ghost" id="closeDetail">✕</button>
+        </div>
+        <div class="detail-panel__body" id="detailBody"></div>
+    </aside>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

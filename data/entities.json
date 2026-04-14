@@ -1,0 +1,292 @@
+[
+  {
+    "source_file": "Ficha Cadastral - Phosphea 17_10_2023.pdf",
+    "razao_social": "PHOSPHEA BRASIL COMERCIO DE FOSFATOS LTDA",
+    "cnpj_principal": "26.769.908/0001-58",
+    "inscricao_estadual": "096/3691392",
+    "data_fundacao": "27/12/2016",
+    "capital_social": "R$ 1.000.000,00",
+    "ramo_atividade": "COMÉRCIO ATACADISTA DE MATÉRIAS-PRIMAS AGRÍCOLAS COM ATIVIDADE DE FRACIONAMENTO E ACONDICIONAMENTO ASSOCIADA",
+    "sede": {
+      "endereco": "AV. CARLOS GOMES, 222 - SALAS 601, 602, 1301 E 1302.",
+      "bairro": "BOA VISTA",
+      "cidade": "PORTO ALEGRE",
+      "cep": "90480-000",
+      "estado": "RS"
+    },
+    "website": "www.phosphea.com",
+    "telefone": "+55 41 3306 6328",
+    "socios": [
+      {
+        "nome": "TIMAB INDUSTRIES S.A.S.",
+        "participacao": "99,99%",
+        "cnpj": "26.638.300/0001-94"
+      },
+      {
+        "nome": "AGRINTER S.A.S.",
+        "participacao": "0,01%",
+        "cnpj": "05.723.828/0001-91"
+      }
+    ],
+    "administradores": [
+      {
+        "nome": "DIEGO DANIEL ANAYA",
+        "cpf": "801.254.409-10"
+      }
+    ],
+    "filiais": [
+      {
+        "cnpj": "26.769.908/0002-39",
+        "cidade": "CURITIBA",
+        "estado": "PR",
+        "endereco": "R. DEP. HEITOR ALENCAR FURTADO, 3350, SALA 508, 5º ANDAR, COND. OPUS ONE"
+      },
+      {
+        "cnpj": "26.769.908/0003-10",
+        "cidade": "NAVEGANTES",
+        "estado": "SC",
+        "endereco": "ROD. BR 470, INGO HERING, 11089, SALA C"
+      }
+    ],
+    "todos_cnpjs": [
+      "26.769.908/0001-58",
+      "26.638.300/0001-94",
+      "05.723.828/0001-91",
+      "26.769.908/0002-39",
+      "26.769.908/0003-10"
+    ],
+    "todos_cpfs": [
+      "801.254.409-10"
+    ],
+    "emails": [
+      "nfe1@timacagro.com.br"
+    ],
+    "telefones": [
+      "+55 41 3306 6328"
+    ],
+    "fornecedores": [],
+    "referencias_bancarias": []
+  },
+  {
+    "source_file": "Ficha Cadastral - Sulfabras_23032023.pdf",
+    "razao_social": "SULFABRÁS SULFATOS DO BRASIL LTDA.",
+    "cnpj_principal": "23.767.075/0001-06",
+    "inscricao_estadual": "129.160.957",
+    "data_fundacao": "01/12/2015",
+    "capital_social": "R$ 64.086.120,00",
+    "ramo_atividade": "COMERCIALIZAÇÃO E FABRICAÇÃO DE SULFATOS, CLORETOS E PRODUTOS QUÍMICOS, FABRICAÇÃO DE ADUBOS E FERTILIZANTES ORGANOMINERAIS;",
+    "sede": {
+      "endereco": "RUA ALFA, 1646F",
+      "bairro": "POLO INDUSTRIAL DE CAMAÇARI",
+      "cidade": "CAMAÇARI",
+      "cep": "42816-100",
+      "estado": "BA"
+    },
+    "website": "",
+    "telefone": "+55 51 3382 8700",
+    "socios": [],
+    "administradores": [
+      {
+        "nome": "DANIEL CLAIRTON SCHNEIDER",
+        "cpf": "495.677.300-59"
+      }
+    ],
+    "filiais": [],
+    "todos_cnpjs": [
+      "23.767.075/0001-06",
+      "02.329.713/0001-29"
+    ],
+    "todos_cpfs": [
+      "495.677.300-59"
+    ],
+    "emails": [
+      "nfe1@timacagro.com.br"
+    ],
+    "telefones": [
+      "+55 51 3382 8700"
+    ],
+    "fornecedores": [
+      "ARMAC LOCAÇÃO - LOGÍSTICA E SERVIÇOS",
+      "CEMIG GERAÇÃO E TRANSMISSÃO",
+      "MA LOCAÇÃO DE MÁQUINAS E EQUIPAMENTOS",
+      "BIG BAG EMBALAGENS",
+      "3G LOCAÇÕES"
+    ],
+    "referencias_bancarias": [
+      {
+        "banco": "ITAÚ",
+        "agencia": "0275"
+      }
+    ]
+  },
+  {
+    "source_file": "Ficha Cadastral - TIMAC Agro Brasil_06052025 (2).pdf",
+    "razao_social": "TIMAC AGRO INDÚSTRIA E COMÉRCIO DE FERTILIZANTES LTDA",
+    "cnpj_principal": "02.329.713/0001-29",
+    "inscricao_estadual": "096/2674397",
+    "data_fundacao": "30/12/1997",
+    "capital_social": "R$ 177.738.637,00",
+    "ramo_atividade": "FABRICAÇÃO, COMERCIALIZAÇÃO, IMPORTAÇÃO E EXPORTAÇÃO DE FERTILIZANTES, PRODUTOS DESTINADOS",
+    "sede": {
+      "endereco": "AV. CARLOS GOMES, 222 - SALAS 601, 602, 1301 E 1302.",
+      "bairro": "BOA VISTA",
+      "cidade": "PORTO ALEGRE",
+      "cep": "90480-000",
+      "estado": "RS"
+    },
+    "website": "www.timacagro.com.br",
+    "telefone": "+55 51 3382 8700",
+    "socios": [
+      {
+        "nome": "FIPAR AGRO INTERNATIONAL",
+        "participacao": "90,01%",
+        "cnpj": "07.149.774/0001-28"
+      },
+      {
+        "nome": "AGRO INNOVATION INTERNATIONAL",
+        "participacao": "9,99%",
+        "cnpj": "05.505.329/0001-28"
+      }
+    ],
+    "administradores": [
+      {
+        "nome": "DANIEL CLAIRTON SCHNEIDER",
+        "cpf": "495.677.300-59"
+      }
+    ],
+    "filiais": [
+      {
+        "cnpj": "02.329.713/0002-00",
+        "cidade": "RIO GRANDE",
+        "estado": "RS",
+        "endereco": "AV. ALMIRANTE MAXIMIANO FONSECA, 1550 – KM 2"
+      },
+      {
+        "cnpj": "02.329.713/0035-78",
+        "cidade": "RIO GRANDE",
+        "estado": "RS",
+        "endereco": "AV. ALMIRANTE MAXIMIANO FONSECA, 1550 – KM 2 - ANEXO UNID. NUTRIÇÃO ANIMAL"
+      },
+      {
+        "cnpj": "02.329.713/0022-53",
+        "cidade": "CANDEIAS",
+        "estado": "BA",
+        "endereco": "VIA PORTUÁRIA KM 20"
+      },
+      {
+        "cnpj": "02.329.713/0039-00",
+        "cidade": "CAMAÇARI",
+        "estado": "BA",
+        "endereco": "RUA ALFA, 1646F, GLEBA H"
+      },
+      {
+        "cnpj": "02.329.713/0016-05",
+        "cidade": "SANTA LUZIA DO NORTE",
+        "estado": "AL",
+        "endereco": "RODOVIA AL401 KM 1,5"
+      },
+      {
+        "cnpj": "02.329.713/0020-91",
+        "cidade": "CURITIBA",
+        "estado": "PR",
+        "endereco": "RUA DEP. HEITOR ALENCAR FURTADO, 3350, CONJ. 501, 505, 506 e 507"
+      },
+      {
+        "cnpj": "02.329.713/0025-04",
+        "cidade": "INDUSTRIAL",
+        "estado": "PR",
+        "endereco": "AV. JUSCELINO KUBITSCHEK DE OLIVEIRA, 13.790 / SALA 05"
+      },
+      {
+        "cnpj": "02.329.713/0019-58",
+        "cidade": "CAMPINAS",
+        "estado": "SP",
+        "endereco": "AV COMENDADOR ALADINO SELMI, 4630 - GALPÃO 5A COND GR CAMPINAS 2"
+      },
+      {
+        "cnpj": "02.329.713/0031-44",
+        "cidade": "GOIÂNIA",
+        "estado": "GO",
+        "endereco": ""
+      },
+      {
+        "cnpj": "02.329.713/0037-30",
+        "cidade": "APARECIDA DE GOIÂNIA",
+        "estado": "GO",
+        "endereco": ""
+      },
+      {
+        "cnpj": "02.329.713/0036-59",
+        "cidade": "MACEIO",
+        "estado": "AL",
+        "endereco": "AV INDUSTRIAL CICERO TOLEDO, S/N, ARMZ GRANEIS LIQUIDOS"
+      },
+      {
+        "cnpj": "02.329.713/0038-10",
+        "cidade": "CUIABÁ",
+        "estado": "MT",
+        "endereco": "AV BRASILIA, 578, SALA 08"
+      }
+    ],
+    "todos_cnpjs": [
+      "02.329.713/0001-29",
+      "07.149.774/0001-28",
+      "05.505.329/0001-28",
+      "02.329.713/0002-00",
+      "02.329.713/0035-78",
+      "02.329.713/0022-53",
+      "02.329.713/0039-00",
+      "02.329.713/0016-05",
+      "02.329.713/0020-91",
+      "02.329.713/0025-04",
+      "02.329.713/0019-58",
+      "02.329.713/0031-44",
+      "02.329.713/0037-30",
+      "02.329.713/0036-59",
+      "02.329.713/0038-10"
+    ],
+    "todos_cpfs": [
+      "495.677.300-59"
+    ],
+    "emails": [
+      "nfe20@timacagro.com.br",
+      "nfe1@timacagro.com.br",
+      "nfe26@timacagro.com.br",
+      "nfe2@timacagro.com.br",
+      "nfe16@timacagro.com.br",
+      "nfe15@timacagro.com.br",
+      "nfe14@timacagro.com.br",
+      "nfe17@timacagro.com.br"
+    ],
+    "telefones": [
+      "+55 51 3382 8729",
+      "+55 51 3382 8700"
+    ],
+    "fornecedores": [
+      "OCP BRASIL",
+      "TECTEXTIL EMBALAGENS TÊXTEIS",
+      "ARMAC LOC. LOGÍSTICA E SERVIÇOS",
+      "PISANI PLÁSTICOS",
+      "TICKET SOLUÇÕES HDFGT",
+      "MOVIDA LOCAÇÃO DE VEÍCULOS"
+    ],
+    "referencias_bancarias": [
+      {
+        "banco": "BANCO DO BRASIL",
+        "agencia": "3168"
+      },
+      {
+        "banco": "SANTANDER",
+        "agencia": "2138"
+      },
+      {
+        "banco": "ITAÚ",
+        "agencia": "0280"
+      },
+      {
+        "banco": "BRADESCO",
+        "agencia": "2028"
+      }
+    ]
+  }
+]
