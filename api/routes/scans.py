@@ -57,6 +57,7 @@ async def _run_scan():
             regex_engine = RegexEngine(matrix)
             classifier = RiskClassifier(matrix)
             webhook = WebhookDispatcher()
+            new_findings_list = []
 
             dorks = generator.generate_all()
             total_dorks = len(dorks)
@@ -66,6 +67,7 @@ async def _run_scan():
             scan.progress_phase = "crawling"
             await db.flush()
 
+            await webhook.send_scan_started(total_dorks)
             _update_progress("crawling", 0, total_dorks)
 
             all_discovered = []
@@ -161,16 +163,17 @@ async def _run_scan():
                 db.add(finding)
                 findings_count += 1
 
-                await webhook.dispatch(
-                    risk_level=risk.level,
-                    title=item.title,
-                    url=item.url,
-                    platform=platform,
-                    cpf_count=inspection.cpf_count,
-                    cnpj_count=inspection.cnpj_count,
-                    entity=", ".join(inspection.entity_matches[:3]),
-                    category=risk.category,
-                )
+                new_findings_list.append({
+                    "risk_level": risk.level,
+                    "risk_score": risk.score,
+                    "title": item.title,
+                    "url": item.url,
+                    "platform": platform,
+                    "entity": ", ".join(inspection.entity_matches[:3]),
+                    "category": risk.category,
+                    "cpf_count": inspection.cpf_count,
+                    "cnpj_count": inspection.cnpj_count,
+                })
 
                 download_result.data.close()
 
@@ -180,6 +183,7 @@ async def _run_scan():
             scan.finished_at = datetime.now(timezone.utc)
             await db.commit()
 
+            await webhook.send_scan_summary(new_findings_list, total_urls)
             await downloader.close()
             await webhook.close()
 
