@@ -7,7 +7,7 @@
     <meta name="description" content="Sistema de monitoramento OSINT e prevenção de vazamento de dados">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/dashboard.css?v=2.2">
+    <link rel="stylesheet" href="/static/css/dashboard.css?v=2.3">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -48,28 +48,28 @@
                 <span class="metric-card__label">TOTAL FINDINGS</span>
             </div>
         </div>
-        <div class="metric-card metric-card--critical">
+        <div class="metric-card metric-card--critical" onclick="filterByRisk('critical')" style="cursor:pointer">
             <div class="metric-card__icon">⚠️</div>
             <div class="metric-card__data">
                 <span class="metric-card__value" id="criticalCount">0</span>
                 <span class="metric-card__label">CRÍTICO</span>
             </div>
         </div>
-        <div class="metric-card metric-card--high">
+        <div class="metric-card metric-card--high" onclick="filterByRisk('high')" style="cursor:pointer">
             <div class="metric-card__icon">🔸</div>
             <div class="metric-card__data">
                 <span class="metric-card__value" id="highCount">0</span>
                 <span class="metric-card__label">ALTO</span>
             </div>
         </div>
-        <div class="metric-card metric-card--medium">
+        <div class="metric-card metric-card--medium" onclick="filterByRisk('medium')" style="cursor:pointer">
             <div class="metric-card__icon">🔹</div>
             <div class="metric-card__data">
                 <span class="metric-card__value" id="mediumCount">0</span>
                 <span class="metric-card__label">MÉDIO</span>
             </div>
         </div>
-        <div class="metric-card metric-card--low">
+        <div class="metric-card metric-card--low" onclick="filterByRisk('low')" style="cursor:pointer">
             <div class="metric-card__icon">✅</div>
             <div class="metric-card__data">
                 <span class="metric-card__value" id="lowCount">0</span>
@@ -79,35 +79,35 @@
     </section>
 
     <section class="status-metrics">
-        <div class="status-card status-card--pending">
+        <div class="status-card status-card--pending" onclick="filterByStatus('pending')" style="cursor:pointer">
             <div class="status-card__icon">⏳</div>
             <div class="status-card__data">
                 <span class="status-card__value" id="statusPending">0</span>
                 <span class="status-card__label">PENDENTE</span>
             </div>
         </div>
-        <div class="status-card status-card--investigating">
+        <div class="status-card status-card--investigating" onclick="filterByStatus('investigating')" style="cursor:pointer">
             <div class="status-card__icon">🔍</div>
             <div class="status-card__data">
                 <span class="status-card__value" id="statusInvestigating">0</span>
                 <span class="status-card__label">INVESTIGANDO</span>
             </div>
         </div>
-        <div class="status-card status-card--false_positive">
+        <div class="status-card status-card--false_positive" onclick="filterByStatus('false_positive')" style="cursor:pointer">
             <div class="status-card__icon">🚫</div>
             <div class="status-card__data">
                 <span class="status-card__value" id="statusFalsePositive">0</span>
                 <span class="status-card__label">FALSO POSITIVO</span>
             </div>
         </div>
-        <div class="status-card status-card--resolved">
+        <div class="status-card status-card--resolved" onclick="filterByStatus('resolved')" style="cursor:pointer">
             <div class="status-card__icon">✅</div>
             <div class="status-card__data">
                 <span class="status-card__value" id="statusResolved">0</span>
                 <span class="status-card__label">RESOLVIDO</span>
             </div>
         </div>
-        <div class="status-card status-card--notified">
+        <div class="status-card status-card--notified" onclick="filterByStatus('notified')" style="cursor:pointer">
             <div class="status-card__icon">📨</div>
             <div class="status-card__data">
                 <span class="status-card__value" id="statusNotified">0</span>
@@ -209,6 +209,6 @@
 
     <div id="toastContainer" class="toast-container"></div>
 
-    <script src="/static/js/dashboard.js?v=2.2"></script>
+    <script src="/static/js/dashboard.js?v=2.3"></script>
 </body>
 </html>

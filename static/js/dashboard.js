@@ -319,6 +319,20 @@ function exportXlsx() {
     showToast('Exportando XLSX...', 'success');
 }
 
+function filterByStatus(status) {
+    var sel = document.getElementById('filterStatus');
+    sel.value = sel.value === status ? '' : status;
+    loadFindings(1);
+    document.querySelector('.findings-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function filterByRisk(risk) {
+    var sel = document.getElementById('filterRisk');
+    sel.value = sel.value === risk ? '' : risk;
+    loadFindings(1);
+    document.querySelector('.findings-section').scrollIntoView({ behavior: 'smooth' });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     loadDashboard();
     loadFindings(1);
