@@ -1,6 +1,8 @@
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+
+BRT = timezone(timedelta(hours=-3))
 
 from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy import select
@@ -134,7 +136,7 @@ async def _run_scan():
                         country=country,
                         language="pt",
                         doc_metadata=json.dumps({"auto_fp_reason": fp_reason}, ensure_ascii=False),
-                        resolution_status="false_positive",
+                        resolution_status="auto_false_positive",
                         analyst_notes=f"Auto-classified: {fp_reason}",
                     )
                     db.add(finding)
@@ -212,7 +214,7 @@ async def _run_scan():
             scan.total_findings = findings_count
             scan.status = "completed"
             scan.progress_phase = "completed"
-            scan.finished_at = datetime.now(timezone.utc)
+            scan.finished_at = datetime.now(BRT)
             await db.commit()
 
             await webhook.send_scan_summary(new_findings_list, total_urls)
@@ -231,7 +233,7 @@ async def _run_scan():
             logger.exception("Scan failed: %s", e)
             scan.status = "failed"
             scan.progress_phase = "failed"
-            scan.finished_at = datetime.now(timezone.utc)
+            scan.finished_at = datetime.now(BRT)
             await db.commit()
             _update_progress("failed", 0, 0, str(e))
 

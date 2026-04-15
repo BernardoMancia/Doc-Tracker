@@ -205,8 +205,8 @@ async def export_xlsx(
 
     status_labels = {
         "pending": "Pendente", "investigating": "Investigando",
-        "false_positive": "Falso Positivo", "resolved": "Resolvido",
-        "notified": "Notificado",
+        "false_positive": "Falso Positivo", "auto_false_positive": "FP Automatico",
+        "resolved": "Resolvido", "notified": "Notificado",
     }
     risk_labels = {
         "critical": "CRITICO", "high": "ALTO",

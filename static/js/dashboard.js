@@ -9,7 +9,7 @@ const API = {
 };
 
 const RISK_EMOJI = { critical: '🔴', high: '🟠', medium: '🟡', low: '🟢' };
-const STATUS_LABELS = { pending: 'Pendente', investigating: 'Investigando', false_positive: 'Falso Positivo', resolved: 'Resolvido', notified: 'Notificado' };
+const STATUS_LABELS = { pending: 'Pendente', investigating: 'Investigando', false_positive: 'Falso Positivo', auto_false_positive: 'FP Automático', resolved: 'Resolvido', notified: 'Notificado' };
 const CATEGORY_LABELS = { rh: 'RH', financeiro: 'Financeiro', ti: 'TI', ti_security: 'TI/Segurança', dados_pessoais: 'Dados Pessoais', corporativo: 'Corporativo', general: 'Geral' };
 const PHASE_LABELS = { starting: 'Inicializando...', crawling: 'Buscando na web...', inspecting: 'Analisando documentos...', completed: 'Concluído', failed: 'Falhou' };
 const COUNTRY_FLAGS = { BR: '🇧🇷', PT: '🇵🇹', FR: '🇫🇷', US: '🇺🇸', DE: '🇩🇪', ES: '🇪🇸', GB: '🇬🇧', CA: '🇨🇦', AR: '🇦🇷', CL: '🇨🇱', CO: '🇨🇴', MX: '🇲🇽', INT: '🌐' };
@@ -54,6 +54,7 @@ async function loadDashboard() {
         document.getElementById('statusPending').textContent = bs.pending || 0;
         document.getElementById('statusInvestigating').textContent = bs.investigating || 0;
         document.getElementById('statusFalsePositive').textContent = bs.false_positive || 0;
+        document.getElementById('statusAutoFP').textContent = bs.auto_false_positive || 0;
         document.getElementById('statusResolved').textContent = bs.resolved || 0;
         document.getElementById('statusNotified').textContent = bs.notified || 0;
 

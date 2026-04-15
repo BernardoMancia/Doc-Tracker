@@ -30,12 +30,12 @@ async def migrate():
 
         fp_count = 0
         for f in all_findings:
-            if f.resolution_status == "false_positive":
+            if f.resolution_status in ("false_positive", "auto_false_positive"):
                 continue
 
             reason = url_filter.is_auto_false_positive(f.url)
             if reason:
-                f.resolution_status = "false_positive"
+                f.resolution_status = "auto_false_positive"
                 f.analyst_notes = f"Auto-classified (migration): {reason}"
                 fp_count += 1
                 print(f"  [FP] {f.url[:80]} -> {reason}")

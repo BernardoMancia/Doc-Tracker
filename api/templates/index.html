@@ -7,7 +7,7 @@
     <meta name="description" content="Sistema de monitoramento OSINT e prevenção de vazamento de dados">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/dashboard.css?v=2.3">
+    <link rel="stylesheet" href="/static/css/dashboard.css?v=2.4">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -100,6 +100,13 @@
                 <span class="status-card__label">FALSO POSITIVO</span>
             </div>
         </div>
+        <div class="status-card status-card--auto_fp" onclick="filterByStatus('auto_false_positive')" style="cursor:pointer">
+            <div class="status-card__icon">🤖</div>
+            <div class="status-card__data">
+                <span class="status-card__value" id="statusAutoFP">0</span>
+                <span class="status-card__label">FP AUTOMÁTICO</span>
+            </div>
+        </div>
         <div class="status-card status-card--resolved" onclick="filterByStatus('resolved')" style="cursor:pointer">
             <div class="status-card__icon">✅</div>
             <div class="status-card__data">
@@ -143,7 +150,9 @@
                     <option value="pending">Pendente</option>
                     <option value="investigating">Investigando</option>
                     <option value="false_positive">Falso Positivo</option>
+                    <option value="auto_false_positive">FP Automático</option>
                     <option value="resolved">Resolvido</option>
+                    <option value="notified">Notificado</option>
                 </select>
                 <select id="filterCategory" class="filter-select">
                     <option value="">Todas Categorias</option>
@@ -209,6 +218,6 @@
 
     <div id="toastContainer" class="toast-container"></div>
 
-    <script src="/static/js/dashboard.js?v=2.3"></script>
+    <script src="/static/js/dashboard.js?v=2.4"></script>
 </body>
 </html>

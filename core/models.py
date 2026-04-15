@@ -1,5 +1,7 @@
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+
+BRT = timezone(timedelta(hours=-3))
 from sqlalchemy import Boolean, DateTime, Integer, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -13,7 +15,7 @@ class Scan(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     started_at: Mapped[datetime] = mapped_column(
-        DateTime, default=lambda: datetime.now(timezone.utc)
+        DateTime, default=lambda: datetime.now(BRT)
     )
     finished_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     total_urls_found: Mapped[int] = mapped_column(Integer, default=0)
@@ -37,7 +39,7 @@ class Finding(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     scan_id: Mapped[int] = mapped_column(Integer, nullable=False, index=True)
     discovered_at: Mapped[datetime] = mapped_column(
-        DateTime, default=lambda: datetime.now(timezone.utc)
+        DateTime, default=lambda: datetime.now(BRT)
     )
     source_platform: Mapped[str] = mapped_column(String(100), default="unknown")
     url: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
@@ -64,8 +66,8 @@ class Finding(Base):
     is_deleted: Mapped[bool] = mapped_column(Boolean, default=False)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(BRT),
+        onupdate=lambda: datetime.now(BRT),
     )
 
     def set_sensitive_terms(self, terms: list[str]):

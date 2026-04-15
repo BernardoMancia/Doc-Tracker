@@ -276,7 +276,7 @@ body {
 
 .status-metrics {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 12px;
     padding: 12px 24px 0;
 }
@@ -337,6 +337,10 @@ body {
 .status-card--false_positive::before { background: var(--text-muted); }
 .status-card--false_positive .status-card__icon { color: var(--text-muted); background: rgba(100, 116, 139, 0.12); }
 .status-card--false_positive .status-card__value { color: var(--text-muted); }
+
+.status-card--auto_fp::before { background: var(--risk-high); }
+.status-card--auto_fp .status-card__icon { color: var(--risk-high); background: var(--risk-high-bg); }
+.status-card--auto_fp .status-card__value { color: var(--risk-high); }
 
 .status-card--resolved::before { background: var(--accent-cyan); }
 .status-card--resolved .status-card__icon { color: var(--accent-cyan); background: rgba(6, 214, 160, 0.12); }
@@ -462,6 +466,7 @@ body {
 
 .status-badge--investigating { color: var(--accent-blue); border-color: rgba(59, 130, 246, 0.3); }
 .status-badge--false_positive { color: var(--text-muted); border-color: rgba(100, 116, 139, 0.3); }
+.status-badge--auto_false_positive { color: var(--risk-high); border-color: rgba(255, 159, 67, 0.3); }
 .status-badge--resolved { color: var(--accent-cyan); border-color: rgba(6, 214, 160, 0.3); }
 .status-badge--notified { color: var(--accent-purple); border-color: rgba(139, 92, 246, 0.3); }
 
