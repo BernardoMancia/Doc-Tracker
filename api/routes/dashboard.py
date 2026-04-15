@@ -52,9 +52,12 @@ async def get_dashboard_metrics(db: AsyncSession = Depends(get_db)):
     by_category = {row[0]: row[1] for row in category_rows}
 
     status_q = (
-        select(Finding.resolution_status, func.count(Finding.id))
+        select(
+            func.coalesce(Finding.resolution_status, "pending"),
+            func.count(Finding.id),
+        )
         .where(Finding.is_deleted == False)
-        .group_by(Finding.resolution_status)
+        .group_by(func.coalesce(Finding.resolution_status, "pending"))
     )
     status_rows = (await db.execute(status_q)).all()
     by_status = {row[0]: row[1] for row in status_rows}
