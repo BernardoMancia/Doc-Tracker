@@ -183,8 +183,7 @@ function renderPagination(current, total, totalItems) {
 
 async function openDetail(id) {
     try {
-        var allData = await fetchJSON(API.findings + '?per_page=100');
-        var finding = allData.findings.find(function(f) { return f.id === id; });
+        var finding = await fetchJSON(API.findings + '/' + id);
         if (!finding) return;
         selectedFinding = finding;
         var body = document.getElementById('detailBody');

@@ -105,6 +105,22 @@ async def list_findings(
     }
 
 
+@router.get("/findings/{finding_id}")
+async def get_finding(
+    finding_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    from fastapi import HTTPException
+
+    result = await db.execute(
+        select(Finding).where(Finding.id == finding_id, Finding.is_deleted == False)
+    )
+    finding = result.scalar_one_or_none()
+    if not finding:
+        raise HTTPException(status_code=404, detail="Finding not found")
+    return _serialize_finding(finding)
+
+
 @router.patch("/findings/{finding_id}/status")
 async def update_finding_status(
     finding_id: int,
