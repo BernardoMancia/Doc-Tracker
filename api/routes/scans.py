@@ -110,6 +110,38 @@ async def _run_scan():
                 if existing.scalar_one_or_none():
                     continue
 
+                fp_reason = url_filter.is_auto_false_positive(item.url)
+                if fp_reason:
+                    country = detect_country(item.url)
+                    platform = url_filter.detect_platform(item.url)
+                    finding = Finding(
+                        scan_id=scan_id,
+                        source_platform=platform,
+                        url=item.url,
+                        title=item.title,
+                        file_type="html",
+                        risk_level="low",
+                        risk_score=1,
+                        category="corporativo",
+                        entity_matched="",
+                        cpf_count=0,
+                        cnpj_count=0,
+                        financial_count=0,
+                        sensitive_terms="[]",
+                        snippets="[]",
+                        author="",
+                        publisher="",
+                        country=country,
+                        language="pt",
+                        doc_metadata=json.dumps({"auto_fp_reason": fp_reason}, ensure_ascii=False),
+                        resolution_status="false_positive",
+                        analyst_notes=f"Auto-classified: {fp_reason}",
+                    )
+                    db.add(finding)
+                    findings_count += 1
+                    logger.info("Auto false-positive: %s (%s)", item.url[:60], fp_reason)
+                    continue
+
                 file_type = url_filter.detect_file_type(item.url)
                 download_result = await downloader.download(item.url)
 

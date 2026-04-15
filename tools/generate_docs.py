@@ -10,8 +10,8 @@ from docx.oxml import parse_xml
 import fitz
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DOCS_DIR = BASE_DIR / "documentacao"
-DOCS_DIR.mkdir(exist_ok=True)
+DOCS_DIR = BASE_DIR / "documentacao" / "geral"
+DOCS_DIR.mkdir(parents=True, exist_ok=True)
 
 BLUE_DARK = RGBColor(0x0F, 0x17, 0x2A)
 BLUE_MID = RGBColor(0x1E, 0x40, 0xAF)

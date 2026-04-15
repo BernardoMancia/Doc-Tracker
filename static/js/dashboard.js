@@ -5,6 +5,7 @@ const API = {
     triggerScan: '/api/scans/trigger',
     progress: '/api/scans/progress',
     stream: '/api/stream',
+    exportXlsx: '/api/export/xlsx',
 };
 
 const RISK_EMOJI = { critical: '🔴', high: '🟠', medium: '🟡', low: '🟢' };
@@ -48,6 +49,14 @@ async function loadDashboard() {
         document.getElementById('highCount').textContent = (data.by_risk && data.by_risk.high) || 0;
         document.getElementById('mediumCount').textContent = (data.by_risk && data.by_risk.medium) || 0;
         document.getElementById('lowCount').textContent = (data.by_risk && data.by_risk.low) || 0;
+
+        var bs = data.by_status || {};
+        document.getElementById('statusPending').textContent = bs.pending || 0;
+        document.getElementById('statusInvestigating').textContent = bs.investigating || 0;
+        document.getElementById('statusFalsePositive').textContent = bs.false_positive || 0;
+        document.getElementById('statusResolved').textContent = bs.resolved || 0;
+        document.getElementById('statusNotified').textContent = bs.notified || 0;
+
         renderRiskChart(data.by_risk || {});
         renderPlatformChart(data.by_platform || {});
         if (data.last_scan) {
@@ -292,11 +301,30 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
+function exportXlsx() {
+    var risk = document.getElementById('filterRisk').value || '';
+    var status = document.getElementById('filterStatus').value || '';
+    var category = document.getElementById('filterCategory').value || '';
+    var country = document.getElementById('filterCountry').value || '';
+    var language = document.getElementById('filterLanguage').value || '';
+    var params = new URLSearchParams();
+    if (risk) params.set('risk_level', risk);
+    if (status) params.set('status', status);
+    if (category) params.set('category', category);
+    if (country) params.set('country', country);
+    if (language) params.set('language', language);
+    var url = API.exportXlsx;
+    if (params.toString()) url += '?' + params.toString();
+    window.location.href = url;
+    showToast('Exportando XLSX...', 'success');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     loadDashboard();
     loadFindings(1);
     initSSE();
     document.getElementById('btnTriggerScan').addEventListener('click', triggerScan);
+    document.getElementById('btnExportXlsx').addEventListener('click', exportXlsx);
     document.getElementById('closeDetail').addEventListener('click', function() { document.getElementById('detailPanel').classList.remove('open'); });
     document.getElementById('filterRisk').addEventListener('change', function() { loadFindings(1); });
     document.getElementById('filterStatus').addEventListener('change', function() { loadFindings(1); });

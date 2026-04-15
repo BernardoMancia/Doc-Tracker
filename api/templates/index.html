@@ -24,6 +24,7 @@
                 <span class="pulse-dot"></span>
                 <span id="scanStatusText">Idle</span>
             </div>
+            <button class="btn btn--export" id="btnExportXlsx" title="Exportar Excel">📊 Exportar XLSX</button>
             <button class="btn btn--primary" id="btnTriggerScan">🔄 Iniciar Scan</button>
         </div>
     </header>
@@ -73,6 +74,44 @@
             <div class="metric-card__data">
                 <span class="metric-card__value" id="lowCount">0</span>
                 <span class="metric-card__label">BAIXO</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="status-metrics">
+        <div class="status-card status-card--pending">
+            <div class="status-card__icon">⏳</div>
+            <div class="status-card__data">
+                <span class="status-card__value" id="statusPending">0</span>
+                <span class="status-card__label">PENDENTE</span>
+            </div>
+        </div>
+        <div class="status-card status-card--investigating">
+            <div class="status-card__icon">🔍</div>
+            <div class="status-card__data">
+                <span class="status-card__value" id="statusInvestigating">0</span>
+                <span class="status-card__label">INVESTIGANDO</span>
+            </div>
+        </div>
+        <div class="status-card status-card--false_positive">
+            <div class="status-card__icon">🚫</div>
+            <div class="status-card__data">
+                <span class="status-card__value" id="statusFalsePositive">0</span>
+                <span class="status-card__label">FALSO POSITIVO</span>
+            </div>
+        </div>
+        <div class="status-card status-card--resolved">
+            <div class="status-card__icon">✅</div>
+            <div class="status-card__data">
+                <span class="status-card__value" id="statusResolved">0</span>
+                <span class="status-card__label">RESOLVIDO</span>
+            </div>
+        </div>
+        <div class="status-card status-card--notified">
+            <div class="status-card__icon">📨</div>
+            <div class="status-card__data">
+                <span class="status-card__value" id="statusNotified">0</span>
+                <span class="status-card__label">NOTIFICADO</span>
             </div>
         </div>
     </section>

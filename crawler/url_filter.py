@@ -2,6 +2,46 @@ import re
 from urllib.parse import urlparse
 from config.intelligence_matrix import IntelligenceMatrix
 
+PUBLIC_REGISTRY_DOMAINS = {
+    "informecadastral.com.br",
+    "cnpj.biz",
+    "cnpja.com",
+    "cnpj.info",
+    "consultacnpj.com",
+    "cadastroempresa.com.br",
+    "econodata.com.br",
+    "empresascnpj.com",
+    "casadosdados.com.br",
+    "speedio.com.br",
+    "cnpjs.rocks",
+    "receitafederal.gov.br",
+    "solucoes.receita.fazenda.gov.br",
+    "consultasocio.com",
+    "emis.com",
+    "dnb.com",
+    "opencorporates.com",
+    "empresaqui.com.br",
+    "dadosmarket.com.br",
+    "bipbop.com.br",
+    "infoplex.com.br",
+    "sfrancisco.com.br",
+}
+
+OFFICIAL_SOCIAL_PROFILES = {
+    "instagram.com/timacagrobrasil",
+    "instagram.com/phospheabrasil",
+    "instagram.com/sulfabras",
+    "instagram.com/grouperoullier",
+    "facebook.com/timacagrobrasil",
+    "facebook.com/phospheabrasil",
+    "linkedin.com/company/timac-agro",
+    "linkedin.com/company/phosphea",
+    "linkedin.com/company/roullier",
+    "youtube.com/@timacagrobrasil",
+    "twitter.com/timacagrobrasil",
+    "x.com/timacagrobrasil",
+}
+
 
 TLD_COUNTRY_MAP = {
     ".br": "BR", ".com.br": "BR", ".gov.br": "BR", ".org.br": "BR",
@@ -91,6 +131,25 @@ class URLFilter:
             return True
         except Exception:
             return False
+
+    def is_auto_false_positive(self, url: str) -> str | None:
+        try:
+            parsed = urlparse(url)
+            domain = parsed.netloc.lower().replace("www.", "")
+            path = parsed.path.lower().strip("/")
+            full = domain + "/" + path if path else domain
+
+            for reg_domain in PUBLIC_REGISTRY_DOMAINS:
+                if domain == reg_domain or domain.endswith("." + reg_domain):
+                    return f"public_registry:{reg_domain}"
+
+            for profile in OFFICIAL_SOCIAL_PROFILES:
+                if full.startswith(profile):
+                    return f"official_social:{profile}"
+
+        except Exception:
+            pass
+        return None
 
     def detect_file_type(self, url: str) -> str:
         path = urlparse(url).path.lower()
