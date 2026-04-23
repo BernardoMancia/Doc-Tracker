@@ -39,7 +39,7 @@ def _update_progress(phase: str, current: int, total: int, detail: str = ""):
     scan_progress["detail"] = detail
 
 
-async def _run_scan():
+async def _run_scan(silent: bool = False):
     logger.info("=== OSINT Scan Started ===")
     _update_progress("starting", 0, 0, "Inicializando...")
 
@@ -69,7 +69,8 @@ async def _run_scan():
             scan.progress_phase = "crawling"
             await db.flush()
 
-            await webhook.send_scan_started(total_dorks)
+            if not silent:
+                await webhook.send_scan_started(total_dorks)
             _update_progress("crawling", 0, total_dorks)
 
             all_discovered = []
@@ -217,7 +218,8 @@ async def _run_scan():
             scan.finished_at = datetime.now(BRT)
             await db.commit()
 
-            await webhook.send_scan_summary(new_findings_list, total_urls)
+            if not silent:
+                await webhook.send_scan_summary(new_findings_list, total_urls)
             await downloader.close()
             await webhook.close()
 

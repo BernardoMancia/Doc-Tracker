@@ -15,7 +15,7 @@ class DorkGenerator:
         return groups
 
     def _entity_block(self, max_items: int = 6) -> str:
-        items = self.matrix.entities[:max_items]
+        items = self.matrix.core_entities[:max_items]
         return "(" + " OR ".join(f'"{e}"' for e in items) + ")"
 
     def generate_entity_dorks(self) -> list[str]:

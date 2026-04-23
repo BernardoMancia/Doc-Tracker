@@ -70,6 +70,20 @@ def _extract_from_json(data: list[dict]) -> dict:
 @dataclass(frozen=True)
 class IntelligenceMatrix:
 
+    core_entities: list[str] = field(default_factory=lambda: [
+        "Timac",
+        "Timac Agro",
+        "Timac Agro Brasil",
+        "Sulfabras",
+        "Sulfabras Sulfatos do Brasil",
+        "Phosphea",
+        "Phosphea Brasil",
+        "Roullier",
+        "Groupe Roullier",
+        "Grupo Roullier",
+        "Timab Industries",
+    ])
+
     entities: list[str] = field(default_factory=lambda: [
         "Timac Agro",
         "Timac Agro Brasil",
@@ -82,14 +96,10 @@ class IntelligenceMatrix:
         "PHOSPHEA BRASIL COMERCIO DE FOSFATOS LTDA",
         "Groupe Roullier",
         "Grupo Roullier",
-        "Fipar Agro Internacional",
-        "FIPAR AGRO INTERNATIONAL",
         "Agro Innovation International",
         "AGRO INNOVATION INTERNATIONAL",
         "Timab Industries S.A.S",
         "TIMAB INDUSTRIES S.A.S.",
-        "Agrinter S.A.S",
-        "AGRINTER S.A.S.",
     ])
 
     cnpjs: list[str] = field(default_factory=lambda: [
@@ -257,7 +267,7 @@ class IntelligenceMatrix:
 
     @property
     def primary_identifiers(self) -> list[str]:
-        return self.entities[:8] + self.cnpjs[:3]
+        return self.core_entities[:8] + self.cnpjs[:3]
 
     @property
     def exclusion_string(self) -> str:

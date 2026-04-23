@@ -1,5 +1,7 @@
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+
+BRT = timezone(timedelta(hours=-3))
 
 import httpx
 
@@ -54,7 +56,7 @@ class WebhookDispatcher:
             return False
 
     async def send_scan_started(self, total_dorks: int):
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        now = datetime.now(BRT).strftime("%d/%m/%Y %H:%M BRT")
         message = (
             "🔍 *SCAN INICIADO*\n"
             "\n"
@@ -85,7 +87,7 @@ class WebhookDispatcher:
 
         total_new = len(new_findings)
         counts = {k: len(v) for k, v in grouped.items()}
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        now = datetime.now(BRT).strftime("%d/%m/%Y %H:%M BRT")
 
         header = (
             f"⚠️ *SCAN CONCLUÍDO — {total_new} novo(s) vazamento(s)*\n"

@@ -1,8 +1,9 @@
 import logging
 import sys
+import asyncio
 from pathlib import Path
 from contextlib import asynccontextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -15,33 +16,51 @@ from config.settings import settings
 from api.app import create_app as _create_base_app
 from api.routes.scans import _run_scan
 from alerts.webhook import WebhookDispatcher
+from alerts.scheduler import should_send_alert_today
+from alerts.bot import run_bot, generate_report_text
 
 logger = logging.getLogger(__name__)
 scheduler = AsyncIOScheduler()
 
+BRT = timezone(timedelta(hours=-3))
+
 
 async def scheduled_scan():
-    logger.info("=== Scheduled Scan Triggered ===")
-    await _run_scan()
+    logger.info("=== Scheduled Silent Scan ===")
+    await _run_scan(silent=True)
+
+
+async def check_alert_day():
+    logger.info("Checking if today is alert day...")
+    if should_send_alert_today():
+        logger.info("Today IS alert day — sending consolidated report")
+        dispatcher = WebhookDispatcher()
+        report = await generate_report_text()
+        await dispatcher.send_telegram(report)
+        await dispatcher.close()
+    else:
+        logger.info("Not an alert day — skipping")
 
 
 async def send_startup_alert():
     dispatcher = WebhookDispatcher()
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    now = datetime.now(BRT).strftime("%d/%m/%Y %H:%M BRT")
     schedule = ", ".join(f"{h}:00" for h in settings.schedule_hours)
     message = (
         "🟢 *OSINT/DLP System — Online*\n"
         "\n"
         f"🖥️ *Server:* {settings.dashboard_url}\n"
         f"🕐 *Início:* {now}\n"
-        f"📅 *Auto-scan:* {schedule} BRT\n"
+        f"📅 *Auto-scan:* {schedule} BRT (silencioso)\n"
+        f"📨 *Alertas:* 1º e 15º dia útil do mês\n"
+        f"🤖 *Bot:* Ativo\n"
         f"🔧 *Port:* {settings.api_port}\n"
         "\n"
-        "✅ Scheduler ativo. Monitoramento em andamento."
+        "✅ Scheduler + Bot Telegram ativos."
     )
     await dispatcher.send_telegram(message)
     await dispatcher.close()
-    logger.info("Startup alert sent to Telegram")
+    logger.info("Startup alert sent")
 
 
 def _configure_scheduler():
@@ -53,7 +72,15 @@ def _configure_scheduler():
             id=f"scan_{hour}h",
             replace_existing=True,
         )
-        logger.info("Scheduled scan at %02d:00 BRT", hour)
+        logger.info("Scheduled silent scan at %02d:00 BRT", hour)
+
+    scheduler.add_job(
+        check_alert_day,
+        CronTrigger(hour=7, minute=30, timezone="America/Sao_Paulo"),
+        id="alert_check",
+        replace_existing=True,
+    )
+    logger.info("Scheduled alert check at 07:30 BRT")
 
 
 def create_server_app() -> FastAPI:
@@ -68,6 +95,7 @@ def create_server_app() -> FastAPI:
             scheduler.start()
             logger.info("Scheduler started")
             await send_startup_alert()
+            asyncio.create_task(run_bot())
             yield
             scheduler.shutdown(wait=False)
             logger.info("Scheduler stopped")
@@ -82,7 +110,7 @@ def main():
         format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
     )
     logger.info("OSINT/DLP Server Mode — Port %d", settings.api_port)
-    logger.info("Schedule: %s", settings.scan_schedule_hours)
+    logger.info("Schedule: %s (silent)", settings.scan_schedule_hours)
 
     app = create_server_app()
 

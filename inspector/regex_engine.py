@@ -136,6 +136,15 @@ class RegexEngine:
             result = result.replace(email.group(), self._mask_value(email.group(), "email"), 1)
         return result
 
+    def _validate_core_entity(self, text: str, entity_matches: list[str]) -> list[str]:
+        if not entity_matches:
+            return []
+        text_lower = text.lower()
+        for core in self.matrix.core_entities:
+            if core.lower() in text_lower:
+                return entity_matches
+        return []
+
     def inspect(self, text: str) -> InspectionResult:
         if not text or len(text.strip()) < 10:
             return InspectionResult()
@@ -146,7 +155,10 @@ class RegexEngine:
         result.financial_matches = self._find_pattern_matches(text, "financial", self.PATTERNS["financial"])
         result.email_matches = self._find_pattern_matches(text, "email", self.PATTERNS["email"])
         result.phone_matches = self._find_pattern_matches(text, "phone", self.PATTERNS["phone"])
-        result.entity_matches = self._find_text_matches(text, self.matrix.entities)
+
+        raw_entity_matches = self._find_text_matches(text, self.matrix.entities)
+        result.entity_matches = self._validate_core_entity(text, raw_entity_matches)
+
         result.supplier_matches = self._find_text_matches(text, self.matrix.all_suppliers)
         result.people_matches = self._find_text_matches(text, self.matrix.key_people)
         result.sensitive_term_matches = self._find_text_matches(text, self.matrix.all_sensitive_terms)
@@ -154,3 +166,4 @@ class RegexEngine:
         all_regex = result.cpf_matches + result.cnpj_matches + result.financial_matches + result.email_matches
         result.snippets = self._build_snippets(text, all_regex)
         return result
+
