@@ -6,6 +6,7 @@ const API = {
     progress: '/api/scans/progress',
     stream: '/api/stream',
     exportXlsx: '/api/export/xlsx',
+    exportCsv: '/api/export/csv',
 };
 
 const RISK_EMOJI = { critical: '🔴', high: '🟠', medium: '🟡', low: '🟢' };
@@ -301,7 +302,7 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
-function exportXlsx() {
+function buildExportParams() {
     var risk = document.getElementById('filterRisk').value || '';
     var status = document.getElementById('filterStatus').value || '';
     var category = document.getElementById('filterCategory').value || '';
@@ -313,10 +314,23 @@ function exportXlsx() {
     if (category) params.set('category', category);
     if (country) params.set('country', country);
     if (language) params.set('language', language);
+    return params;
+}
+
+function exportXlsx() {
+    var params = buildExportParams();
     var url = API.exportXlsx;
     if (params.toString()) url += '?' + params.toString();
-    window.location.href = url;
+    window.open(url, '_blank');
     showToast('Exportando XLSX...', 'success');
+}
+
+function exportCsv() {
+    var params = buildExportParams();
+    var url = API.exportCsv;
+    if (params.toString()) url += '?' + params.toString();
+    window.open(url, '_blank');
+    showToast('Exportando CSV...', 'success');
 }
 
 function filterByStatus(status) {
@@ -339,6 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initSSE();
     document.getElementById('btnTriggerScan').addEventListener('click', triggerScan);
     document.getElementById('btnExportXlsx').addEventListener('click', exportXlsx);
+    document.getElementById('btnExportCsv').addEventListener('click', exportCsv);
     document.getElementById('closeDetail').addEventListener('click', function() { document.getElementById('detailPanel').classList.remove('open'); });
     document.getElementById('filterRisk').addEventListener('change', function() { loadFindings(1); });
     document.getElementById('filterStatus').addEventListener('change', function() { loadFindings(1); });

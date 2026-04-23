@@ -274,6 +274,14 @@ body {
 }
 .btn--export:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3); }
 
+.btn--export-csv {
+    background: linear-gradient(135deg, var(--accent-cyan), #0ea5e9);
+    color: var(--bg-primary);
+    border: none;
+    font-weight: 700;
+}
+.btn--export-csv:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(6, 214, 160, 0.3); }
+
 .status-metrics {
     display: grid;
     grid-template-columns: repeat(6, 1fr);

@@ -7,7 +7,7 @@
     <meta name="description" content="Sistema de monitoramento OSINT e prevenção de vazamento de dados">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/dashboard.css?v=2.5">
+    <link rel="stylesheet" href="/static/css/dashboard.css?v=2.6">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -24,7 +24,8 @@
                 <span class="pulse-dot"></span>
                 <span id="scanStatusText">Idle</span>
             </div>
-            <button class="btn btn--export" id="btnExportXlsx" title="Exportar Excel">📊 Exportar XLSX</button>
+            <button class="btn btn--export" id="btnExportXlsx" title="Exportar Excel">📊 XLSX</button>
+            <button class="btn btn--export-csv" id="btnExportCsv" title="Exportar CSV">📄 CSV</button>
             <button class="btn btn--primary" id="btnTriggerScan">🔄 Iniciar Scan</button>
         </div>
     </header>
@@ -218,6 +219,6 @@
 
     <div id="toastContainer" class="toast-container"></div>
 
-    <script src="/static/js/dashboard.js?v=2.5"></script>
+    <script src="/static/js/dashboard.js?v=2.6"></script>
 </body>
 </html>
